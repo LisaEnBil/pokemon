@@ -1,9 +1,9 @@
-import './PokemonCardInfo.css'
+import './Card.css'
 import { useEffect, useState } from "react";
 
 import { Pokemon } from "./PokemonList";
 
-export function PokemonCardInfo(props: {url: any}){
+export function Card(props: {url: any}){
 
     const url = props.url
 
