@@ -1,7 +1,6 @@
 import './PokemonList.css'
 import { useEffect, useState } from "react";
 import { PokemonCardInfo } from "./PokemonCardInfo";
-import { PokemonCard } from './PokemonCard';
 
 export type PokemonType = {
     name: string;
@@ -26,7 +25,9 @@ export function PokemonList(): JSX.Element {
       {
         pokemonList && 
         pokemonList.map((pokemon: PokemonType) => {
-          return <PokemonCard  url={pokemon.url} />  
+          return <div className="card">
+          <PokemonCardInfo url={pokemon.url} /> 
+      </div>
         })
       }
         
