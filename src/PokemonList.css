@@ -1,0 +1,17 @@
+.pokemon-list{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3vw;
+    background-color: white;
+    width: 60vw;
+    margin: auto;
+    margin-top: 2em;
+    border-radius: 25px;
+}
+
+
+@media screen and (max-width: 600px) {
+    .pokemon-list {
+        grid-template-columns: 1fr;
+    }
+  }

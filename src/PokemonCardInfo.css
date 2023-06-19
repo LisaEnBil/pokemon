@@ -1,0 +1,20 @@
+.pokemon-card{
+    width: 15vw;
+    height: 18vw;
+    
+}
+img {
+    max-width: 40vw;
+    height: auto;
+  }
+p{
+    font-size: minmax(2vw, 2.5vw);
+    margin: 0
+}
+
+.card{
+    margin:auto;
+    margin-top: 2em;
+    border: 1px solid rgb(6, 5, 5);
+    border-radius: 15px;
+}
