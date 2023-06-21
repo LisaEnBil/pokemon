@@ -11,7 +11,6 @@ type PokemonListType = PokemonType[]
 
 export function PokemonList(): JSX.Element {
     const [pokemonList, setPokemonList] = useState<PokemonListType>();
-    
   
     useEffect(() => {
       fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
