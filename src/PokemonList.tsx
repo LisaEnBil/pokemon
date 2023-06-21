@@ -2,41 +2,40 @@ import './PokemonList.css'
 import { useEffect, useState } from "react";
 import { Card } from "./Card";
 
-export type PokemonType = {
-    name: string;
-    url: string
-}
-
-type PokemonListType = PokemonType[]
-
-export function PokemonList(): JSX.Element {
-    const [pokemonList, setPokemonList] = useState<PokemonListType>();
+export function PokemonList(props: {handleClick: (isClicked: boolean) => void}): JSX.Element {
+    const [pokemonList, setPokemonList] = useState<PokemonListType[]>();
   
     useEffect(() => {
-      fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
+
+        fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
         .then((response) => response.json())
         .then((data) => setPokemonList(data.results))
-        .catch((error) => console.log(error));
-    }, []);
+        .catch((error) => console.log(error))
+      
+    }, [pokemonList]
+    );
 
-    return (
-      <div className="pokemon-list">
-      {
-        pokemonList && 
-        pokemonList.map((pokemon: PokemonType) => {
-          return <div key={pokemon.name} className="card" >
-          <Card url={pokemon.url} /> 
-      </div>
-        })
-      }
-        
-        
+    if (!pokemonList){
+      return <>NOOOO!</>
+    }
+
+    return ( 
+        <div className="pokemon-list"> 
+       {pokemonList.map((pokemon: PokemonListType) => {
+          return  <div key={pokemon.name} className="card" > 
+            <Card url={pokemon.url} handleClick={props.handleClick}/> 
+          </div>
+        })}
       </div>
     );
   }
   
 
 
+export type PokemonListType = {
+    name: string;
+    url: string
+}
 
 export type Pokemon = {
     abilities: { ability: { name: string; url: string } }[];
@@ -44,14 +43,14 @@ export type Pokemon = {
     forms: { name: string; url: string }[];
     game_indices: { game_index: number; version: { name: string; url: string } }[];
     height: number;
-    held_items: any[]; // You can replace 'any' with a more specific type if necessary
+    held_items: any[]; 
     id: number;
     is_default: boolean;
     location_area_encounters: string;
     moves: { move: { name: string; url: string } }[];
     name: string;
     order: number;
-    past_types: any[]; // You can replace 'any' with a more specific type if necessary
+    past_types: any[]; 
     species: { name: string; url: string };
     sprites: {
       back_default: string;
@@ -62,8 +61,8 @@ export type Pokemon = {
       front_female: string | null;
       front_shiny: string;
       front_shiny_female: string | null;
-      other: any; // You can replace 'any' with a more specific type if necessary
-      versions: any; // You can replace 'any' with a more specific type if necessary
+      other: any; 
+      versions: any; 
     };
     stats: { base_stat: number; effort: number; stat: { name: string; url: string } }[];
     types: { slot: number; type: { name: string; url: string } }[];

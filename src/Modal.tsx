@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Pokemon } from "./PokemonList";
+import './components/Modal.css';
 
-export const Modal = (props: {name: string, isClicked: React.Dispatch<React.SetStateAction<boolean>>}) => {
+export const Modal = (props: {name: string, handleClick: (isClicked: boolean) => void}) => {
     const [pokemon, setPokemon] = useState<Pokemon>();
 
     useEffect(() => {
@@ -11,8 +12,8 @@ export const Modal = (props: {name: string, isClicked: React.Dispatch<React.SetS
           .catch((error) => console.log(error));
       }, [props.name]);
 
-    const handleClick = () => {
-      props.isClicked(false)
+    const clickHandler = () => {
+      props.handleClick(false)
     }
     return <div className="modal">
       <div className="modal-content">
@@ -23,7 +24,7 @@ export const Modal = (props: {name: string, isClicked: React.Dispatch<React.SetS
           Content
         </div>
         <div className="modal-footer">
-          <button className="button" onClick={handleClick}>Close</button>
+          <button className="button" onClick={clickHandler}>Close</button>
         </div>
       </div>
     </div>

@@ -1,38 +1,36 @@
 import './Card.css'
 import { useEffect, useState } from "react";
 import { Pokemon } from "./PokemonList";
-import { Modal } from './Modal';
 
-export function Card(props: {url: any}){
+export function Card(props: {url: any, handleClick: (isClicked: boolean) => void}){
 
     const url = props.url
 
     const [pokemon, setPokemon] = useState<Pokemon>();
-    const [isClicked, setIsClicked] = useState<boolean>(false);
-
 
     useEffect(() => {
-        if (url !== "") {
+        if (url) {
           fetch(url)
             .then((response) => response.json())
             .then((data) => setPokemon(data))
             .catch((error) => console.log(error));
         }
-      }, [url]);
+    }, [url, pokemon]);
 
-      const handleClick = () => {
-        setIsClicked(true); 
-        return  pokemon && <Modal name={pokemon.name} isClicked={setIsClicked} />
+      if (!pokemon){
+        return <>NOOOO!</>
       }
 
-     return pokemon ? <div key={pokemon.id} className="pokemon-card" onClick={handleClick}>
+      const clickHandler = () => {
+        console.log("card");
+        props.handleClick(true)
+      }
+
+     return <div key={pokemon.id} className="pokemon-card" onClick={clickHandler}>
          <img src={pokemon.sprites.front_default} alt="pokemon">
         </img>
         <p>
             {pokemon.name}
         </p>
     </div> 
-    : 
-    <>NOOOO!</>
-
 }
