@@ -24,7 +24,7 @@ export function PokemonList(): JSX.Element {
       {
         pokemonList && 
         pokemonList.map((pokemon: PokemonType) => {
-          return <div className="card">
+          return <div key={pokemon.name} className="card" >
           <Card url={pokemon.url} /> 
       </div>
         })
