@@ -1,24 +1,31 @@
 import { useEffect, useState } from "react";
 import { Pokemon } from "./PokemonList";
 import './components/Modal.css';
+import { DataType } from "./Card";
+import { initialPokemonState } from "./redux/pokemon.initial-state";
 
-export const Modal = (props: {name: string, handleClick: (isClicked: boolean) => void}) => {
-    const [pokemon, setPokemon] = useState<Pokemon>();
-
-    useEffect(() => {
-        fetch(`https://pokeapi.co/api/v2/pokemon/${props.name}`)
-          .then((response) => response.json())
-          .then((data) => setPokemon(data.results))
-          .catch((error) => console.log(error));
-      }, [props.name]);
+export const Modal = (props: { handleClick: (data: DataType) => void, pokemon: Pokemon}) => {
+    const [isLoading, setIsLoading] = useState<boolean>(true);  
 
     const clickHandler = () => {
-      props.handleClick(false)
+      props.handleClick({isClicked: false, pokemon: initialPokemonState})
     }
+    useEffect(() => {
+        if (props.pokemon){
+          setIsLoading(false);
+        }
+        console.log("useEffect")
+    }, [props.pokemon]);
+
+    console.log("hello")
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+
     return <div className="modal">
       <div className="modal-content">
         <div className="modal-header">
-          <h4>{props.name}</h4>
+          <h4>{props.pokemon.name}</h4>
         </div>
         <div className="modal-body">
           Content
