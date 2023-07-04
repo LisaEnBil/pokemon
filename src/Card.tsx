@@ -1,30 +1,31 @@
 import './Card.css'
 import { useEffect, useState } from "react";
 import { Pokemon } from "./PokemonList";
+import { useDispatch } from 'react-redux';
 
-export function Card(props: {url: any, handleClick: (isClicked: boolean) => void}){
-
-    const url = props.url
+export function Card(props: {url: any, handleClick: (data: DataType) => void}){
+    const url = props.url;
+    const dispatch = useDispatch();
 
     const [pokemon, setPokemon] = useState<Pokemon>();
-
+    
     useEffect(() => {
-        if (url) {
-          fetch(url)
-            .then((response) => response.json())
-            .then((data) => setPokemon(data))
-            .catch((error) => console.log(error));
-        }
+        fetch(url)
+        .then((response) => response.json())
+        .then((data) => setPokemon(data))
+        .catch((error) => console.log(error));
     }, [url, pokemon]);
+    
+    if (!pokemon){
+      return <></>
+    }
+    
+    const data: DataType = {isClicked: true, pokemon: pokemon}
 
-      if (!pokemon){
-        return <>NOOOO!</>
-      }
-
-      const clickHandler = () => {
-        console.log("card");
-        props.handleClick(true)
-      }
+    const clickHandler = () => {
+      props.handleClick(data);
+      
+    }
 
      return <div key={pokemon.id} className="pokemon-card" onClick={clickHandler}>
          <img src={pokemon.sprites.front_default} alt="pokemon">
@@ -33,4 +34,11 @@ export function Card(props: {url: any, handleClick: (isClicked: boolean) => void
             {pokemon.name}
         </p>
     </div> 
+}
+
+
+
+export type DataType = {
+  isClicked: boolean;
+  pokemon: Pokemon;
 }
