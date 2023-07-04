@@ -1,28 +1,27 @@
 import './PokemonList.css'
 import { useEffect, useState } from "react";
-import { Card } from "./Card";
+import { Card, DataType } from "./Card";
 
-export function PokemonList(props: {handleClick: (isClicked: boolean) => void}): JSX.Element {
+export function PokemonList(props: {handleClick: (data: DataType) => void}): JSX.Element {
     const [pokemonList, setPokemonList] = useState<PokemonListType[]>();
-  
-    useEffect(() => {
+    
 
+    useEffect(() => {
         fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
-        .then((response) => response.json())
-        .then((data) => setPokemonList(data.results))
-        .catch((error) => console.log(error))
-      
-    }, [pokemonList]
-    );
+      .then((response) => response.json())
+      .then((data) => setPokemonList(data.results))
+      .catch((error) => console.log(error))
+        
+    },[]);
 
     if (!pokemonList){
-      return <>NOOOO!</>
+      return <>Is loading </>
     }
 
     return ( 
         <div className="pokemon-list"> 
        {pokemonList.map((pokemon: PokemonListType) => {
-          return  <div key={pokemon.name} className="card" > 
+          return <div key={pokemon.name} className="card" > 
             <Card url={pokemon.url} handleClick={props.handleClick}/> 
           </div>
         })}

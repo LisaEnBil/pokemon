@@ -1,36 +1,27 @@
 import './MainContent.css';
 import { Header } from "./Header";
-import { PokemonList, PokemonListType } from "./PokemonList";
+import { Pokemon, PokemonList, PokemonListType } from "./PokemonList";
 import { useEffect, useState } from 'react';
 import { Modal } from './Modal';
-
+import type { Dispatch } from 'redux';
+import { useDispatch } from 'react-redux'
+import { initialPokemonState } from './redux/pokemon.initial-state';
 
 export function MainContent(){
+    const dispatch: Dispatch = useDispatch();
+
     const [isClicked, setIsClicked] = useState<boolean>(false);
-    const [pokemonList, setPokemonList] = useState<PokemonListType[]>();
-  
-    useEffect(() => {
+    const [pokemon, setPokemon] = useState<Pokemon>(initialPokemonState);
 
-        fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
-        .then((response) => response.json())
-        .then((data) => setPokemonList(data.results))
-        .catch((error) => console.log(error))
-      
-    }, [pokemonList]
-    );
-
-    if (!pokemonList){
-      return <>NOOOO!</>
+    const handleClick = (data: Record<string, any>) => {
+        setIsClicked(data.isClicked);
+        setPokemon(data.pokemon);
     }
-
-
-    const handleClick = (isClicked: boolean) => {
-        setIsClicked(isClicked);
-      }
+    console.log(isClicked);
     return <div className="main-content">
         <Header /> 
-        <PokemonList handleClick={handleClick} />
-        {isClicked && <Modal name={"pelle"} handleClick={handleClick} /> }   
+            <PokemonList handleClick={handleClick}/>
+            {isClicked && <Modal handleClick={handleClick} pokemon={pokemon}/> }
     </div>
 }
     
