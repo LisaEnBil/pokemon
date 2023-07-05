@@ -1,19 +1,17 @@
 import './Card.css'
 import { useEffect, useState } from "react";
 import { Pokemon } from "./PokemonList";
-import { useDispatch } from 'react-redux';
 
-export function Card(props: {url: any, handleClick: (data: DataType) => void}){
+export function Card(props: {url: string, handleClick: (data: DataType) => void}){
     const url = props.url;
-    const dispatch = useDispatch();
 
     const [pokemon, setPokemon] = useState<Pokemon>();
     
     useEffect(() => {
-        fetch(url)
+      fetch(url)
         .then((response) => response.json())
         .then((data) => setPokemon(data))
-        .catch((error) => console.log(error));
+        .catch((error) => console.log(error)) 
     }, [url, pokemon]);
     
     if (!pokemon){
